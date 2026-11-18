@@ -39,6 +39,28 @@ Change these if the tools live elsewhere.
   issue(s)" is the healthy state. A `Last failure` line in `hermes cron list` may be historical and recovered.
 - The agent's local API on `127.0.0.1:8765` needs no token. The phone-facing LAN port (`8766`) does.
 
+## Corpus View (build 2)
+
+`widgets/corpus-view.html` is a self-contained canvas widget that renders the corpus as an animated graphic. Four
+skins, tap to cycle, auto-advance every 25 s: `brain` (neural mass), `merkle` (Christmas tree built from document
+hashes), `fractal-tree` (recursive branching) and `fractal-bloom` (expanding rings). Data is embedded by the
+generator, so the widget makes no network requests.
+
+`scripts/corpus_graph.py` reads `index.sqlite3` read-only, samples up to 420 nodes (all knowledge, capped decisions,
+todos, notes and newest conversations), builds edges from vault wikilinks, shared projects and a knowledge→conversation
+bridge, then writes `corpus.json`, `corpus-view.rendered.html` and `pages/corpus.json` (the page definition with the
+HTML inline).
+
+```bash
+python3 gldy/scripts/corpus_graph.py \
+  --db /Volumes/gldy_corpus/GLDY/Search-Indexes/brain/index.sqlite3 \
+  --vault /Volumes/gldy_corpus/GLDY/Vault \
+  --out /tmp/corpus.json --rendered /tmp/corpus-view.rendered.html
+```
+
+The Studio install carries this page as tab 4 (`corpus`, 12×6). The rendered page is ~100 KB; regenerate it after a
+big ingest if the counts drift.
+
 ## Next builds
 
 From the plan document, in order: a push script plus a Custom HTML dashboard fed by `POST /api/push/<key>`, notify
