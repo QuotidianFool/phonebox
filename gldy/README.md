@@ -9,7 +9,7 @@ A custom PhoneBox page that shows the state of the gldy lab on the paired phone.
 | --- | --- | --- |
 | Paperclip | 60 s | `paperclipai issue list -C <company> --json` → counts of everything not `done`, grouped by status |
 | Sparks model | 60 s | the model id served by TensorFold on `127.0.0.1:18888` |
-| Brain | 300 s | conversation, knowledge and passage counts from `gldy-brain status` |
+| Brain | 300 s | conversation, knowledge and passage counts straight from `index.sqlite3` (`sqlite3`, no Python) |
 | Crons | 120 s | active job count plus the first line of `hermes cron doctor` |
 
 ## Files
@@ -32,6 +32,7 @@ Change these if the tools live elsewhere.
 
 ## Things to know
 
+- The brain widget reads `index.sqlite3` with `sqlite3` instead of `gldy-brain status`. The CLI needs its own virtualenv, and the agent's environment (inherited from whatever launched it) can carry a conflicting `VIRTUAL_ENV` that breaks NumPy. A direct SQL query is immune to that and faster.
 - `paperclipai issue list` needs the company id. The Studio's company is `gldy lab`,
   `4f94b505-df14-4cff-b431-b2da864262fa`. Discover it with `paperclipai company list`.
 - `hermes cron doctor` reports only current problems; the widget prints its first line, so "Cron doctor found 0
