@@ -1,0 +1,64 @@
+{
+  "id": "gldy",
+  "title": "GLDY",
+  "icon": "🧠",
+  "enabled": true,
+  "widgets": [
+    {
+      "id": "gldy-paperclip",
+      "type": "command",
+      "x": 0,
+      "y": 0,
+      "w": 6,
+      "h": 2,
+      "options": {
+        "title": "Paperclip",
+        "interval": 60,
+        "command": "/Users/gldy/.local/bin/paperclipai issue list -C 4f94b505-df14-4cff-b431-b2da864262fa --json | /usr/bin/jq -r '[.[]|select(.status!=\"done\")]|group_by(.status)|map(\"\\(.[0].status) \\(length)\")|join(\" · \")'",
+        "commandUnix": "/Users/gldy/.local/bin/paperclipai issue list -C 4f94b505-df14-4cff-b431-b2da864262fa --json | /usr/bin/jq -r '[.[]|select(.status!=\"done\")]|group_by(.status)|map(\"\\(.[0].status) \\(length)\")|join(\" · \")'"
+      }
+    },
+    {
+      "id": "gldy-sparks",
+      "type": "command",
+      "x": 6,
+      "y": 0,
+      "w": 6,
+      "h": 2,
+      "options": {
+        "title": "Sparks model",
+        "interval": 60,
+        "command": "/usr/bin/curl -s -m 4 http://127.0.0.1:18888/v1/models | /usr/bin/jq -r '.data[0].id'",
+        "commandUnix": "/usr/bin/curl -s -m 4 http://127.0.0.1:18888/v1/models | /usr/bin/jq -r '.data[0].id'"
+      }
+    },
+    {
+      "id": "gldy-brain",
+      "type": "command",
+      "x": 0,
+      "y": 2,
+      "w": 6,
+      "h": 2,
+      "options": {
+        "title": "Brain",
+        "interval": 300,
+        "command": "/Users/gldy/.local/bin/gldy-brain status --json | /usr/bin/jq -r '\"\\(.documents.conversation) conv · \\(.documents.knowledge) knowledge · \\(.passages) passages\"'",
+        "commandUnix": "/Users/gldy/.local/bin/gldy-brain status --json | /usr/bin/jq -r '\"\\(.documents.conversation) conv · \\(.documents.knowledge) knowledge · \\(.passages) passages\"'"
+      }
+    },
+    {
+      "id": "gldy-crons",
+      "type": "command",
+      "x": 6,
+      "y": 2,
+      "w": 6,
+      "h": 2,
+      "options": {
+        "title": "Crons",
+        "interval": 120,
+        "command": "printf '%s active jobs\\n' \"$(/Users/gldy/.local/bin/hermes cron list | /usr/bin/grep -c '\\[active\\]')\"; /Users/gldy/.local/bin/hermes cron doctor | /usr/bin/head -1",
+        "commandUnix": "printf '%s active jobs\\n' \"$(/Users/gldy/.local/bin/hermes cron list | /usr/bin/grep -c '\\[active\\]')\"; /Users/gldy/.local/bin/hermes cron doctor | /usr/bin/head -1"
+      }
+    }
+  ]
+}
