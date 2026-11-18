@@ -42,8 +42,8 @@
       "options": {
         "title": "Brain",
         "interval": 300,
-        "command": "/Users/gldy/.local/bin/gldy-brain status --json | /usr/bin/jq -r '\"\\(.documents.conversation) conv · \\(.documents.knowledge) knowledge · \\(.passages) passages\"'",
-        "commandUnix": "/Users/gldy/.local/bin/gldy-brain status --json | /usr/bin/jq -r '\"\\(.documents.conversation) conv · \\(.documents.knowledge) knowledge · \\(.passages) passages\"'"
+        "command": "/usr/bin/sqlite3 /Volumes/gldy_corpus/GLDY/Search-Indexes/brain/index.sqlite3 \"select (select count(*) from docs where kind='conversation')||' conv · '||(select count(*) from docs where kind='knowledge')||' knowledge · '||(select count(*) from chunks)||' passages';\"",
+        "commandUnix": "/usr/bin/sqlite3 /Volumes/gldy_corpus/GLDY/Search-Indexes/brain/index.sqlite3 \"select (select count(*) from docs where kind='conversation')||' conv · '||(select count(*) from docs where kind='knowledge')||' knowledge · '||(select count(*) from chunks)||' passages';\""
       }
     },
     {
